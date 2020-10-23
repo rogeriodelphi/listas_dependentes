@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Formulário de Clientes</h2>
+
+<form method="post" id="clienteForm" dados-cidades-url="{% url 'ajax_carregar_cidades' %}" novalidate>
+    {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+    <button type="submit">Salvar</button>
+    <a href="{% url 'listar_clientes' %}">Cancelar</a>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $("#id_uf").change(function () {
+        var url = $("#clienteForm").attr("dados-cidades-url");
+            var ufId = $(this).val();
+                $.ajax({
+                    url: url,
+                    data: {
+                        'uf': ufId
+                    },
+                    success: function (data) {
+                        $("#id_cidade").html(data);
+                    }
+                });
+    });
+</script>
+
+{% endblock %}

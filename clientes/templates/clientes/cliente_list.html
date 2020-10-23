@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Módulo de Recursos Humanos{% endblock %}
+
+{% block content %}
+  <h2>Módulo de Recursos Humanos »Gestão de Pessoas</h2>
+
+  <p>
+    <a href="{% url 'adicionar_cliente' %}">Adicionar Cliente</a>
+  </p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Data Nascimento</th>
+        <th>Estado</th>
+        <th>Cidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cliente in people %}
+        <tr>
+          <td><a href="{% url 'editar_cliente' cliente.pk %}">{{ cliente.nome }}</a></td>
+          <td>{{ cliente.data_nascimento | date:"Y/m/d" }}</td>
+          <td>{{ cliente.uf.nome }}</td>
+          <td>{{ cliente.cidade.nome }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">Não há clientes cadastrados nesse Banco de Dados. <a href="{% url 'adicionar_cliente' %}">Adicione o primeiro cliente.</a>.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
